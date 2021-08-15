@@ -11,8 +11,8 @@ VALUES  (0001, "Sales Person", "80000", 001),
         (0004, "Software Engineer", "120000", 002),
         (0005, "Account Manager", "160000", 003),
         (0006, "Accountant", "125000", 003),
-        (0007, "Legal Team Lead", "250000", 004),
-        (0008, "Lawyer", "190000", 004);
+        (0007, "Lead Attorney", "250000", 004),
+        (0008, "Attorney", "190000", 004);
 
 INSERT INTO employee (id, first_name, last_name, department_id, manager_id, role_id)
 VALUES  (01, "Luke", "Skywalker", 001, null, 0002),
