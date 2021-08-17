@@ -15,26 +15,15 @@ app.use(express.json());
 const db = mysql.createConnection(
   {
     host: 'localhost',
-    // MySQL Username
     user: 'root',
-    // TODO: Add MySQL Password
     password: 'Rabbit#1234',
     database: 'employee_db'
   },
-  console.log(`Connected to the employee_db database.`), promptEmployeeDepartmentOrRole()
+  console.log(`Connected to the employee_db database.`, '\033[2J'), promptEmployeeDepartmentOrRole()
 );
 
-// async function active() {
-//     // const choice = await promptEmployeeDepartmentOrRole();
-//     console.log('\033[2J');
-//     // await response.choice();
-//     const isContinue = await promptEmployeeDepartmentOrRole();
-//     console.log('\033[2J')
-//     if (isContinue) active();
-// }
-
 async function promptEmployeeDepartmentOrRole(){
-    // console.log('\033[2J');
+    console.log('\033[2J');
     const responses = await inquirer.prompt([{
         type: 'list',
         name: 'choice',
@@ -46,8 +35,6 @@ async function promptEmployeeDepartmentOrRole(){
         if (responses.choice === 'view all departments') {
             console.log('\033[2J');
             console.log("OK - here are all the departments");
-            // const result = db.query('SELECT department_name FROM department');
-            // const results = { departments: (result) ? result.rows : null};
             db.query("SELECT department_name FROM department", function (err, result, fields) {
                 if (err)
                     throw err;
@@ -55,7 +42,6 @@ async function promptEmployeeDepartmentOrRole(){
                 var rows = JSON.parse(JSON.stringify(result));
                 console.table(rows), console.log("(arrow up or down to move on)");
             });
-            // active();
         } else if (responses.choice === 'view all roles') {
             console.log('\033[2J');
             console.log("OK - here are all the roles");
@@ -66,7 +52,6 @@ async function promptEmployeeDepartmentOrRole(){
                 var rows_1 = JSON.parse(JSON.stringify(result_2));
                 console.table(rows_1), console.log("(arrow up or down to move on)");
             });
-            // active();
         } else if (responses.choice === 'view all employees') {
             console.log('\033[2J');
             console.log("OK - here are all the employees");
@@ -77,34 +62,20 @@ async function promptEmployeeDepartmentOrRole(){
                 console.log('\033[2J');
                 console.table(rows_2), console.log("(arrow up or down to move on)");
             });
-            // active();
         } else if (responses.choice === "add a department") {
             console.log('\033[2J');
             await inquirer.prompt([{
                 type: 'input',
                 name: 'department',
                 message: 'What is the name of department would you like to add?'
-            },
-            {
-                type: 'list',
-                name: 'id',
-                message: 'What is the id of department would you like to add?',
-                choices: ['005','006','007','008','009','010']
             }]).then(function (input) {
-                // console.log(input);
-                // console.log(input.department);
-                
-                // const newDpt = `INSERT INTO department (department_name) VALUES ("${named}");`;
-                db.query(`INSERT INTO department (id, department_name) VALUES ("${input.id}","${input.department}");`, function (err, result) {
+                db.query(`INSERT INTO department (id, department_name) VALUES (id,"${input.department}");`, function (err, result) {
                   if (err) {
                       console.log(err);
                     } else {
                         console.log("department added.");
-                        // console.table(department);
                         console.log("arrow down for more options")
                     }
-                //   console.log("Table created");
-                // active();
                 });
             });
 
@@ -131,22 +102,14 @@ async function promptEmployeeDepartmentOrRole(){
                 message: 'What is the department id number of the role you are adding? (001 Sales, 002 Engineering, 003 Engineering, 004 Legal)',
                 choices: ['001','002','003','004']
             }]).then(function (input) {
-                // console.log(input);
-                // console.log(input.employee_role);
-                
-                // const newDpt = `INSERT INTO department (department_name) VALUES ("${named}");`;
                 db.query(`INSERT INTO employee_role (role_id, title, salary, department_id) VALUES ("${input.role_id}","${input.title}","${input.salary}","${input.department_id}");`, function (err, result) {
                   if (err) {
                       console.log(err);
                     } else {
                         console.log("Employee role added.");
                     }
-                //   console.log("Table created");
-                // active();
                 });
             });
-
-
         } else if (responses.choice === "add an employee") {
             console.log('\033[2J');
             await inquirer.prompt([{
@@ -177,23 +140,17 @@ async function promptEmployeeDepartmentOrRole(){
                 message: "What is their title (role ID)? (Sales Person-0001, Sales Manager-0002','Lead Engineer-0003','Software Engineer-0004','Account Manager-0005','Accountant-0006','Lead Attorney-0007','Attorney-0008')",
                 choices: ['Sales Person','Sales Manager','Lead Engineer','Software Engineer','Account Manager','Accountant','Lead Attorney','Attorney']
             }]).then(function (input) {
-                // console.log(input);
-                // console.log(input.employee);
-                
-                // const newDpt = `INSERT INTO department (department_name) VALUES ("${named}");`;
                 db.query(`INSERT INTO employee (id, first_name, last_name, department_id, manager_id, title) VALUES ("${input.id}","${input.first_name}","${input.last_name}","${input.department_id}","${input.manager_id}","${input.title}")`, function (err, result) {
                   if (err) {
                       console.log(err);
                     } else {
                         console.log("Employee added.");
                     }
-                //   console.log("Table created");
-                // active();
                 });
             });
 
         } else if (responses.choice === "update an employee role") {
-            // console.log('\033[2J');
+            console.log('\033[2J');
             await inquirer.prompt([{
                 type: 'list',
                 name: 'employee_role',
@@ -202,7 +159,6 @@ async function promptEmployeeDepartmentOrRole(){
             }]).then(async function (input) {
                 console.log(input.employee_role);
                 if (input.employee_role === 'Sales Person') {
-                    // console.log('\033[2J');
                     await inquirer.prompt([{
                         type: 'input',
                         name: 'title',
@@ -213,7 +169,6 @@ async function promptEmployeeDepartmentOrRole(){
                         message: `What would you like the Sales Peoples' Salary to be?`                    
                     }]).then(function (input)                    {
                         console.log(input.title);
-                        // console.log(employee_role.input);
                         db.query(`INSERT INTO employee_role (role_id, title, salary, department_id) VALUES (role_id,"${input.title}","${input.salary}", department_id);`, function (err, results, fields) {
                           if (err) 
                             throw err;
@@ -228,9 +183,8 @@ async function promptEmployeeDepartmentOrRole(){
                             });
                         });
                     });
-                    // active();
                 } else  if (input.employee_role === "Sales Manager") {
-                    // console.log('\033[2J');
+                    console.log('\033[2J');
                     await inquirer.prompt([{
                         type: 'input',
                         name: 'title',
@@ -240,8 +194,6 @@ async function promptEmployeeDepartmentOrRole(){
                         name: 'salary',
                         message: `What would you like the Sales Manager's Salary to be?`                    
                     }]).then(function (input) {
-                        // console.log(input);
-                        // console.log(input.employee_role);
                         db.query(`INSERT INTO employee_role (role_id, title, salary, department_id) VALUES (role_id,"${input.title}","${input.salary}", department_id);`, function (err, result) {
                             if (err) 
                             throw err;
@@ -257,7 +209,7 @@ async function promptEmployeeDepartmentOrRole(){
                         });
                     });
                 } else  if (input.employee_role === "Lead Engineer") {
-                    // console.log('\033[2J');
+                    console.log('\033[2J');
                     await inquirer.prompt([{
                         type: 'input',
                         name: 'title',
@@ -267,8 +219,6 @@ async function promptEmployeeDepartmentOrRole(){
                         name: 'salary',
                         message: `What would you like the Lead Engineer's Salary to be?`                    
                     }]).then(function (input) {
-                        // console.log(input);
-                        // console.log(input.employee_role);
                         db.query(`INSERT INTO employee_role (role_id, title, salary, department_id) VALUES (role_id,"${input.title}","${input.salary}", department_id);`, function (err, result) {
                             if (err) 
                             throw err;
@@ -284,7 +234,7 @@ async function promptEmployeeDepartmentOrRole(){
                         });
                     });
                 } else  if (input.employee_role === "Software Engineer") {
-                    // console.log('\033[2J');
+                    console.log('\033[2J');
                     await inquirer.prompt([{
                         type: 'input',
                         name: 'title',
@@ -294,8 +244,6 @@ async function promptEmployeeDepartmentOrRole(){
                         name: 'salary',
                         message: `What would you like the Software Engineer's Salary to be?`                    
                     }]).then(function (input) {
-                        // console.log(input);
-                        // console.log(input.employee_role);
                         db.query(`INSERT INTO employee_role (role_id, title, salary, department_id) VALUES (role_id,"${input.title}","${input.salary}", department_id);`, function (err, result) {
                             if (err) 
                             throw err;
@@ -311,7 +259,7 @@ async function promptEmployeeDepartmentOrRole(){
                         });
                     });
                 } else  if (input.employee_role === "Account Manager") {
-                    // console.log('\033[2J');
+                    console.log('\033[2J');
                     await inquirer.prompt([{
                         type: 'input',
                         name: 'title',
@@ -321,8 +269,6 @@ async function promptEmployeeDepartmentOrRole(){
                         name: 'salary',
                         message: `What would you like the Account Manager's Salary to be?`                    
                     }]).then(function (input) {
-                        // console.log(input);
-                        // console.log(input.employee_role);
                         db.query(`INSERT INTO employee_role (role_id, title, salary, department_id) VALUES (role_id,"${input.title}","${input.salary}", department_id);`, function (err, result) {
                             if (err) 
                             throw err;
@@ -338,7 +284,7 @@ async function promptEmployeeDepartmentOrRole(){
                         });
                     });
                 } else  if (input.employee_role === "Accountant") {
-                    // console.log('\033[2J');
+                    console.log('\033[2J');
                     await inquirer.prompt([{
                         type: 'input',
                         name: 'title',
@@ -348,8 +294,6 @@ async function promptEmployeeDepartmentOrRole(){
                         name: 'salary',
                         message: `What would you like the Accountant's Salary to be?`                    
                     }]).then(function (input) {
-                        // console.log(input);
-                        // console.log(input.employee_role);
                         db.query(`INSERT INTO employee_role (role_id, title, salary, department_id) VALUES (role_id,"${input.title}","${input.salary}", department_id);`, function (err, result) {
                             if (err) 
                             throw err;
@@ -365,7 +309,7 @@ async function promptEmployeeDepartmentOrRole(){
                         });
                     });
                 } else  if (input.employee_role === "Lead Attorney") {
-                    // console.log('\033[2J');
+                    console.log('\033[2J');
                     await inquirer.prompt([{
                         type: 'input',
                         name: 'title',
@@ -375,8 +319,6 @@ async function promptEmployeeDepartmentOrRole(){
                         name: 'salary',
                         message: `What would you like the Lead Attorney's Salary to be?`                    
                     }]).then(function (input) {
-                        // console.log(input);
-                        // console.log(input.employee_role);
                         db.query(`INSERT INTO employee_role (role_id, title, salary, department_id) VALUES (role_id,"${input.title}","${input.salary}", department_id);`, function (err, result) {
                             if (err) 
                             throw err;
@@ -392,7 +334,7 @@ async function promptEmployeeDepartmentOrRole(){
                         });
                     });
                 } else  if (input.employee_role === "Attorney") {
-                    // console.log('\033[2J');
+                    console.log('\033[2J');
                     await inquirer.prompt([{
                         type: 'input',
                         name: 'title',
@@ -402,8 +344,6 @@ async function promptEmployeeDepartmentOrRole(){
                         name: 'salary',
                         message: `What would you like the Attorney's Salary to be?`                    
                     }]).then(function (input) {
-                        // console.log(input);
-                        // console.log(input.employee_role);
                         db.query(`INSERT INTO employee_role (role_id, title, salary, department_id) VALUES (role_id,"${input.title}","${input.salary}", department_id);`, function (err, result) {
                             if (err) 
                             throw err;
@@ -421,10 +361,7 @@ async function promptEmployeeDepartmentOrRole(){
                             }       
                         })                                        
             } else if (responses.choice === `update an employee's role`) {
-                // db.query("SELECT first_name, last_name FROM employee", function (err_2, result_3, fields_2) {
-                //     if (err_2)
-                //         throw err_2;
-                //     var rows_2 = JSON.parse(JSON.stringify(result_3))});
+                console.log('\033[2J');
                 await inquirer.prompt([{
                     type: 'list',
                     name: 'employeeName',
@@ -446,6 +383,7 @@ async function promptEmployeeDepartmentOrRole(){
                 });
                 });
             } else if (responses.choice === 'end program and exit') {
+                console.log('\033[2J');
             console.log("good bye!");
             process.kill(process.pid, 'SIGTERM');
         }}

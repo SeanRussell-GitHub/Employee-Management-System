@@ -10,12 +10,17 @@ Use this command in an integrated terminal to start the application:
 node index.js
 ```
 #
-This application uses the following NPM packages:
+This  CMS application uses the following NPM packages:
 
-* Inquirer (for question and answer prompts)
-* MYSQL2 (for database management)
+*  console.table (for viewing tables)
+*  express (web application framework)
+*  inquirer (for Q&A)
+*  mysql2 (database)
+*  router (routes)
+*  inquirer (for question and answer prompts)
+*  mysql2 (for database management)
 
-This application uses content management systems (CMS) to interact with the information contained in the database.
+(Content Management System (CMS) used to interact with the information contained in the database.)
 
 ##
 #
@@ -24,20 +29,16 @@ Please follow the link to a walkthrough video that demonstrates its functionalit
 ### https://drive.google.com
 
 #
-## Basic Requirements
-
-```md
-AS A manager
-I WANT to be able to view my team's basic info 
-so that I have a quick method of reference and editing records
-```
 
 ## User Story
 
 ```md
-AS A business owner
-I WANT to be able to view and manage the departments, roles, and employees in my company
-SO THAT I can organize and plan my business
+As a manager I want to be able to view my team's basic info 
+so that I have a quick method of reference
+```
+
+```md
+As abusiness owner I want to be able to view and manage the departments, roles, and employees in my company
 ```
 
 ## Criteria
@@ -59,7 +60,12 @@ THEN I am prompted to enter the name, salary, and department for the role and th
 WHEN I choose to add an employee
 THEN I am prompted to enter the employee’s first name, last name, role, and manager, and that employee is added to the database
 WHEN I choose to update an employee role
-THEN I am prompted to select an employee to update and their new role and this information is updated in the database 
+THEN I am prompted to select which employee role to update,
+what to change the title to be, what the salary of the role to be, 
+and then I am shown a table of the changes
+WHEN I choose to update an employee's role
+THEN I am prompted to select an employee to update and their new role
+this information is then updated in the database 
 ```
 
 ## Database Structure
@@ -69,9 +75,9 @@ THEN I am prompted to select an employee to update and their new role and this i
 
     * `name`: `VARCHAR(30)` to hold department name
 
-* `role`
+* `employee role`
 
-    * `id`: `INT PRIMARY KEY`
+    * `role_id`: `INT PRIMARY KEY`
 
     * `title`: `VARCHAR(30)` to hold role title
 
@@ -87,20 +93,23 @@ THEN I am prompted to select an employee to update and their new role and this i
 
     * `last_name`: `VARCHAR(30)` to hold employee last name
 
-    * `role_id`: `INT` to hold reference to role id
-
-    * `title` : `VARCHAR(30)` to hold refernce to the employee title
+    * `department_id`: `INT` to hold reference to role id
 
     * `manager_id`: `INT` to hold reference to another employee that is the manager of the current employee (`null` if the employee has no manager)
 
+    * `title` : `VARCHAR(30)` to hold refernce to the employee title
 
+* `manager`
+    * `id` : `INT PRIMARY KEY`
+    *  `first_name ` : `VARCHAR(30)` to hold the manager first name
+    *  `last_name` : `VARCHAR(30)` to hold the manager last name
+    *  `manager_title` : `VARCHAR(30)` to hold the manager department name
 ## Review
 
-You are required to submit BOTH of the following for review:
+Submitting both of the following for review:
 
-* A walkthrough video demonstrating the functionality of the application.
+* A walkthrough video:
 
-* The URL of the GitHub repository, with a unique name and a README describing the project.
+* GitHub repository:
+(https://github.com/SeanRussell-GitHub/Employee-Management-System.git)
 
-- - -
-© 2021 Trilogy Education Services, LLC, a 2U, Inc. brand. Confidential and Proprietary. All Rights Reserved.

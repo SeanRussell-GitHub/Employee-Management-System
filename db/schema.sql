@@ -4,8 +4,9 @@ CREATE DATABASE employee_db;
 USE employee_db;
 
 CREATE TABLE department (
-  id INT NOT NULL PRIMARY KEY,
-  department_name VARCHAR(30) NOT NULL
+  id INT NOT NULL AUTO_INCREMENT,
+  department_name VARCHAR(30) NOT NULL,
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE employee_role (
