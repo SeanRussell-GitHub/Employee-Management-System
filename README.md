@@ -109,6 +109,7 @@ this information is then updated in the database
 Submitting both of the following for review:
 
 * A walkthrough video:
+* https://drive.google.com/file/d/1W-uVqtIH1gYZZzlgG5x6-G7kS4zTO7Ei/view
 
 * GitHub repository:
 (https://github.com/SeanRussell-GitHub/Employee-Management-System.git)
